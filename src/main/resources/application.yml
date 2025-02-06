@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: DevOps
+
+git:
+  repo:
+    url: "https://api.github.com/repos/mmumshad/kubernetes-the-hard-way"
