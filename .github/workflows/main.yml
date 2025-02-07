@@ -39,11 +39,6 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Push image to DockerHub
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          dockerfile: Dockerfile
-          push: true
-          image: ${{ secrets.DOCKER_HUB_USERNAME }}/repotracker
-          tags: latest
+      - name: push the docker image
+        id: push-docker-image
+        run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/repotracker:latest
