@@ -20,7 +20,10 @@ public class BranchCache {
 
     public boolean isAlreadyCached(String repoUrl, String branchName) {
         Map<String, Integer> commitsMap = this.getTotalCommitsCache().get(repoUrl);
-        int commitCount = commitsMap.get(branchName);
-        return commitCount != 0;
+        if(commitsMap != null && !commitsMap.isEmpty()) {
+            int commitCount = commitsMap.get(branchName);
+            return commitCount > 0;
+        }
+        return false;
     }
 }

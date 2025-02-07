@@ -3,6 +3,9 @@ package com.task.devops.service;
 import com.task.devops.cache.BranchCache;
 import com.task.devops.client.GitClient;
 import com.task.devops.dto.commit.CommitDto;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +13,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class GitRepoService {
 
     @Value("${git.repo.url}")
     private String repoUrl;
+
+    private static final Logger log = LoggerFactory.getLogger(GitRepoService.class);
 
     private final GitClient gitClient;
     private final BranchCache branchCache;
@@ -25,6 +31,12 @@ public class GitRepoService {
     }
 
     public void setCommitCache(String branch) {
+        if(branchCache.isAlreadyCached(repoUrl, branch)) {
+            return ;
+        }
+
+        log.info("==== Cache not found, Start Caching for branch :: {}", branch);
+
         int initPage = 1;
         int initPerPage = 100;
 
@@ -41,7 +53,7 @@ public class GitRepoService {
         totalCommitsCachePerRepo.put(repoUrl, totalCommitsPerBranch);
         branchCache.setTotalCommitsCache(totalCommitsCachePerRepo);
 
-        System.out.println("Branch Cache : " + branchCache.getTotalCommitsCache().get(repoUrl).toString());
+        log.info("Branch Cache : {}", branchCache.getTotalCommitsCache().get(repoUrl).toString());
     }
 
     public int getTotalCommitsPagePerBranch(String branchName) {
