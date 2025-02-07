@@ -1,2 +1,2 @@
 ### DevOps Task - 1 
-  Github-Actions
+  Github-Actions for application
