@@ -25,7 +25,7 @@
         <tbody>
         <tr th:each = "branch: ${branches}">
             <td>
-                <a th:href="@{/commits/{branchName}(branchName=${branch.name}, pageNumber=1, pageSize=30)}"
+                <a th:href="@{/commits(branchName=${branch.name}, pageNumber=1, pageSize=30)}"
                    th:text="${branch.name}"></a>
             </td>
             <td th:text="${branch.commit.sha}"></td>

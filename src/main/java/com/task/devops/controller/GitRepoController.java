@@ -38,29 +38,29 @@ public class GitRepoController {
         return "branches";
     }
 
-    @GetMapping("/commits/{branch}")
-    public String getCommits(@PathVariable String branch,
+    @GetMapping("/commits")
+    public String getCommits(@RequestParam(value = "branchName") String branchName,
                              @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                              @RequestParam(value = "per_page", required = false, defaultValue = "30") Integer size,
                              Model model) {
 
-        gitRepoService.setCommitCache(branch);
+        gitRepoService.setCommitCache(branchName);
 
-        int totalCommitsPage = gitRepoService.getTotalCommitsPagePerBranch(branch);
+        int totalCommitsPage = gitRepoService.getTotalCommitsPagePerBranch(branchName);
         int totalCommits = totalCommitsPage * 100;
-        log.info("Total Max Commits at branch : {} is : {}", branch, totalCommits);
+        log.info("Total Max Commits at branch : {} is : {}", branchName, totalCommits);
 
         int totalPages = (int) Math.ceil((double) (totalCommits) / size);
-        log.info("Total Pages at branch : {} is : {}", branch, totalPages);
+        log.info("Total Pages at branch : {} is : {}", branchName, totalPages);
 
-        List<CommitDto> allCommitsPerPage = gitClient.getCommits(branch, page, size);
+        List<CommitDto> allCommitsPerPage = gitClient.getCommits(branchName, page, size);
 
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<CommitDto> commitPage = new PageImpl<>(allCommitsPerPage, pageable, totalCommits);
 
         model.addAttribute("commits", commitPage.getContent());
         model.addAttribute("page", commitPage);
-        model.addAttribute("branchName", branch);
+        model.addAttribute("branchName", branchName);
 
         return "commits";
     }

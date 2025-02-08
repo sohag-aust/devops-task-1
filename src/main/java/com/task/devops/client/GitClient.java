@@ -22,7 +22,7 @@ public interface GitClient {
     List<BranchDto> getBranches();
 
     @GetMapping("/commits")
-    List<CommitDto> getCommits(@RequestParam("sha") String branch,
+    List<CommitDto> getCommits(@RequestParam(value = "sha") String branch,
                                @RequestParam(value = "page", required = false) Integer page,
                                @RequestParam(value = "per_page", required = false) Integer perPage);
 }
