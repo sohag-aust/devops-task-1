@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Error</title>
+    <meta charset="ISO-8859-1">
+    <title>Github Repository Commit History Tracking</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
 </head>
 <body>
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <h1>An Error Occurred</h1>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <h1 class="text-center text-danger">API Limit Reached! Try Again Later!!</h1>
+    </div>
+    <img th:src="@{/img/rate-limit.jpg}" alt="Error Image" class="img-fluid mx-auto d-block" style="max-width: 600px;"/>
+
     <p th:text="${errorMessage}"></p>
 </body>
 </html>
